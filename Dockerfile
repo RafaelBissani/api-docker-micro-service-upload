@@ -25,9 +25,9 @@ WORKDIR /app
 # Copiar os artefatos de build da etapa anterior
 COPY --from=build /app/dist ./dist
 
-# Copiar as dependências do projeto
+# Copiar o restante dos arquivos necessários para rodar a aplicação
 COPY --from=build /app/node_modules ./node_modules
-COPY package.json ./
+COPY package.json tsconfig.json ./
 
 # Expor a porta que a aplicação vai utilizar
 EXPOSE 3333

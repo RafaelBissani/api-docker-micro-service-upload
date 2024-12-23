@@ -1,0 +1,17 @@
+services:
+  api-upload:
+    image: api-docker-micro-service-upload:latest
+    container_name: api-docker-micro-service-upload-api-upload-1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    volumes:
+      - ./uploads:/app/uploads # Mapeia a pasta local ./uploads para /app/uploads no container
+    networks:
+      - harpia-network
+networks:
+  harpia-network:
+    external: true
+
