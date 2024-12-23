@@ -9,8 +9,12 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Request } from 'express';
-import { existsSync, mkdirSync } from 'fs'; // Para verificar e criar pastas
-import { join } from 'path'; // Para unir caminhos
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import * as dotenv from 'dotenv';
+
+// Carrega as variáveis de ambiente do arquivo .env
+dotenv.config();
 
 @Controller('upload')
 export class UploadController {
@@ -65,8 +69,13 @@ export class UploadController {
       throw new BadRequestException('Company ID não fornecido.');
     }
 
-    // Gerar a URL pública de acesso ao arquivo
-    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${companyId}/${file.originalname}`;
+    // Use a variável de ambiente para gerar a URL pública
+    const publicUrl = process.env.UPLOAD_PUBLIC_URL;
+    if (!publicUrl) {
+      throw new Error('UPLOAD_PUBLIC_URL não configurado nas variáveis de ambiente.');
+    }
+
+    const fileUrl = `${publicUrl}/uploads/${companyId}/${file.originalname}`;
 
     console.log('File received:', file);
     console.log('Company ID:', companyId);

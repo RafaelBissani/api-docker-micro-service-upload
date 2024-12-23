@@ -9,6 +9,8 @@ services:
       - "3333:3333"
     volumes:
       - ./uploads:/app/uploads # Mapeia a pasta local ./uploads para /app/uploads no container
+    environment:
+      - UPLOAD_PUBLIC_URL=http://localhost:3333
     networks:
       - harpia-network
 networks:
